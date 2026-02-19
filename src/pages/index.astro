@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import HubLayout from "../layouts/HubLayout.astro";
 import EntryList from "../components/EntryList.astro";
 import GameLinks from "../components/GameLinks.astro";
+import SectionHeader from "../components/SectionHeader.astro";
 
 const entries = (await getCollection("entries")).sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime(),
@@ -15,15 +16,15 @@ const recentEntries = entries.slice(0, 5);
 <HubLayout
   title="Dashboard"
   heading="Learning dashboard"
-  intro="Recent entries plus quick links into each game hub."
+  intro="Notebook-style review of experiments, mistakes, and repeatable wins across each game."
 >
-  <section class="stack">
-    <h2>Quick links</h2>
+  <section class="notebook-surface">
+    <SectionHeader title="Game hubs" detail="Jump to focused notes by title." />
     <GameLinks games={games} />
   </section>
 
-  <section class="stack">
-    <h2>Recent entries</h2>
+  <section class="notebook-surface">
+    <SectionHeader title="Recent entries" detail="Latest learnings across all games." />
     <EntryList entries={recentEntries} />
   </section>
 </HubLayout>

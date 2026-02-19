@@ -22,5 +22,7 @@ const entries = (await getCollection("entries", ({ data }) => data.game === game
   heading={`${game?.toUpperCase()} hub`}
   intro="Game-specific notes, experiments, and confirmations."
 >
-  <EntryList entries={entries} emptyMessage="No entries for this game yet." />
+  <section class="notebook-surface">
+    <EntryList entries={entries} emptyMessage="No entries for this game yet." />
+  </section>
 </HubLayout>

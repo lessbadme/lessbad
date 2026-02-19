@@ -1,6 +1,5 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import TagList from "./TagList.astro";
 import GameBadge from "./GameBadge.astro";
 
 interface Props {
@@ -10,15 +9,11 @@ interface Props {
 const { entry } = Astro.props;
 ---
 
-<article class="card" data-game={entry.data.game}>
+<article class="card timeline-item" data-game={entry.data.game}>
   <div class="meta-row">
     <GameBadge game={entry.data.game} />
     <span class="muted">{entry.data.date.toISOString().slice(0, 10)}</span>
     <span class="muted">· {entry.data.status}</span>
   </div>
-  <h3>
-    <a class="entry-link" href={`/log/${entry.slug}/`}>{entry.data.title}</a>
-  </h3>
-  <p>{entry.data.summary}</p>
-  <TagList tags={entry.data.tags} />
+  <a class="entry-link" href={`/log/${entry.slug}/`}>{entry.data.title}</a>
 </article>

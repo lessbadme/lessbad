@@ -1,4 +1,6 @@
 ---
+import GameBadge from "./GameBadge.astro";
+
 interface Props {
   games: string[];
 }
@@ -10,7 +12,7 @@ const { games } = Astro.props;
   {games.map((game) => (
     <li>
       <a class="card" href={`/games/${game}/`}>
-        {game.toUpperCase()}
+        <GameBadge game={game} />
       </a>
     </li>
   ))}

@@ -23,5 +23,7 @@ const entries = (await getCollection(
   heading={`#${tag}`}
   intro="Cross-game notes grouped by topic."
 >
-  <EntryList entries={entries} emptyMessage="No entries found for this tag." />
+  <section class="notebook-surface">
+    <EntryList entries={entries} emptyMessage="No entries found for this tag." />
+  </section>
 </HubLayout>

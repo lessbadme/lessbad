@@ -2,6 +2,7 @@
 import { getCollection, getEntry } from "astro:content";
 import HubLayout from "../../layouts/HubLayout.astro";
 import TagList from "../../components/TagList.astro";
+import GameBadge from "../../components/GameBadge.astro";
 
 export async function getStaticPaths() {
   const entries = await getCollection("entries");
@@ -24,12 +25,18 @@ const { Content } = await entry.render();
 <HubLayout
   title={entry.data.title}
   heading={entry.data.title}
-  intro={`${entry.data.game.toUpperCase()} · ${entry.data.date.toISOString().slice(0, 10)} · ${entry.data.status}`}
+  intro={entry.data.summary}
 >
-  <p>{entry.data.summary}</p>
-  <TagList tags={entry.data.tags} />
+  <div class="notebook-surface stack">
+    <div class="meta-row">
+      <GameBadge game={entry.data.game} />
+      <span class="muted">{entry.data.date.toISOString().slice(0, 10)}</span>
+      <span class="muted">· {entry.data.status}</span>
+    </div>
+    <TagList tags={entry.data.tags} />
 
-  <article class="card">
-    <Content />
-  </article>
+    <article class="card" data-game={entry.data.game}>
+      <Content />
+    </article>
+  </div>
 </HubLayout>
