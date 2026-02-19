@@ -1,0 +1,46 @@
+---
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const allEntries = await getCollection("entries");
+  const games = [...new Set(allEntries.map((entry) => entry.data.game))];
+
+  return games.map((game) => ({ params: { game } }));
+}
+
+const { game } = Astro.params;
+const allEntries = await getCollection("entries");
+
+const entries = allEntries
+  .filter((entry) => entry.data.game === game)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{game?.toUpperCase()} Learning Entries</title>
+  </head>
+  <body>
+    <main>
+      <a href="/entries/">← All entries</a>
+      <h1>{game?.toUpperCase()} learning entries</h1>
+      <ul>
+        {entries.map((entry) => (
+          <li>
+            <h2>{entry.data.title}</h2>
+            <p>{entry.data.summary}</p>
+            <p>
+              Status: <strong>{entry.data.status}</strong>
+              {entry.data.patch && <> · Patch: {entry.data.patch}</>}
+              {entry.data.version && <> · Version: {entry.data.version}</>}
+              {entry.data.difficulty && <> · Difficulty: {entry.data.difficulty}</>}
+            </p>
+            <p>Tags: {entry.data.tags.join(", ")}</p>
+          </li>
+        ))}
+      </ul>
+    </main>
+  </body>
+</html>
