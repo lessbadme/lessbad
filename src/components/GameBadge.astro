@@ -1,0 +1,9 @@
+---
+interface Props {
+  game: string;
+}
+
+const { game } = Astro.props;
+---
+
+<span class="game-badge" data-game={game}>{game}</span>

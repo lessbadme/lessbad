@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import HubLayout from "../layouts/HubLayout.astro";
-import EntryList from "../components/EntryList.astro";
+import TimelineItem from "../components/TimelineItem.astro";
 
 const entries = (await getCollection("entries")).sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime(),
@@ -11,7 +11,11 @@ const entries = (await getCollection("entries")).sort(
 <HubLayout
   title="Timeline"
   heading="Timeline"
-  intro="Chronological view across all games."
+  intro="Every entry in order so trend shifts are easy to spot."
 >
-  <EntryList entries={entries} />
+  <section class="notebook-surface timeline-list">
+    {entries.map((entry) => (
+      <TimelineItem entry={entry} />
+    ))}
+  </section>
 </HubLayout>

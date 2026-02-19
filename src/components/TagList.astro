@@ -1,4 +1,6 @@
 ---
+import TagChip from "./TagChip.astro";
+
 interface Props {
   tags: string[];
 }
@@ -9,9 +11,7 @@ const { tags } = Astro.props;
 {tags.length > 0 && (
   <div class="tags">
     {tags.map((tag) => (
-      <a class="tag" href={`/tags/${encodeURIComponent(tag)}/`}>
-        #{tag}
-      </a>
+      <TagChip tag={tag} />
     ))}
   </div>
 )}

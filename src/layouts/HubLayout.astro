@@ -14,9 +14,9 @@ const { title, description, heading, intro } = Astro.props;
 
 <BaseLayout title={title} description={description}>
   <SiteNav />
-  <header>
-    <h1>{heading}</h1>
-    {intro && <p class="muted">{intro}</p>}
+  <header class="notebook-surface">
+    <h1 class="page-title">{heading}</h1>
+    {intro && <p class="page-intro">{intro}</p>}
   </header>
   <slot />
 </BaseLayout>
