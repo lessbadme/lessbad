@@ -1,0 +1,17 @@
+---
+interface Props {
+  games: string[];
+}
+
+const { games } = Astro.props;
+---
+
+<ul class="inline-list">
+  {games.map((game) => (
+    <li>
+      <a class="card" href={`/games/${game}/`}>
+        {game.toUpperCase()}
+      </a>
+    </li>
+  ))}
+</ul>

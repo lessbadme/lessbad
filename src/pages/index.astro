@@ -1,0 +1,29 @@
+---
+import { getCollection } from "astro:content";
+import HubLayout from "../layouts/HubLayout.astro";
+import EntryList from "../components/EntryList.astro";
+import GameLinks from "../components/GameLinks.astro";
+
+const entries = (await getCollection("entries")).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+
+const games = [...new Set(entries.map((entry) => entry.data.game))];
+const recentEntries = entries.slice(0, 5);
+---
+
+<HubLayout
+  title="Dashboard"
+  heading="Learning dashboard"
+  intro="Recent entries plus quick links into each game hub."
+>
+  <section class="stack">
+    <h2>Quick links</h2>
+    <GameLinks games={games} />
+  </section>
+
+  <section class="stack">
+    <h2>Recent entries</h2>
+    <EntryList entries={recentEntries} />
+  </section>
+</HubLayout>

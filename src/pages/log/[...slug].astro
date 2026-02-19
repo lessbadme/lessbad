@@ -1,0 +1,35 @@
+---
+import { getCollection, getEntry } from "astro:content";
+import HubLayout from "../../layouts/HubLayout.astro";
+import TagList from "../../components/TagList.astro";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("entries");
+
+  return entries.map((entry) => ({ params: { slug: entry.slug } }));
+}
+
+const slugParam = Astro.params.slug;
+const slug = Array.isArray(slugParam) ? slugParam.join("/") : slugParam ?? "";
+
+const entry = await getEntry("entries", slug);
+
+if (!entry) {
+  throw new Error(`Entry not found: ${slug}`);
+}
+
+const { Content } = await entry.render();
+---
+
+<HubLayout
+  title={entry.data.title}
+  heading={entry.data.title}
+  intro={`${entry.data.game.toUpperCase()} · ${entry.data.date.toISOString().slice(0, 10)} · ${entry.data.status}`}
+>
+  <p>{entry.data.summary}</p>
+  <TagList tags={entry.data.tags} />
+
+  <article class="card">
+    <Content />
+  </article>
+</HubLayout>
