@@ -1,0 +1,54 @@
+---
+import { getCollection } from "astro:content";
+
+const allEntries = (await getCollection("entries")).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+
+const games = [...new Set(allEntries.map((entry) => entry.data.game))];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Learning Entries</title>
+  </head>
+  <body>
+    <main>
+      <h1>Learning Entries</h1>
+      <p>All listings below are generated from content collection data.</p>
+
+      <section>
+        <h2>By game</h2>
+        <ul>
+          {games.map((game) => {
+            const count = allEntries.filter((entry) => entry.data.game === game).length;
+
+            return (
+              <li>
+                <a href={`/entries/${game}/`}>{game.toUpperCase()}</a> ({count})
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+
+      <section>
+        <h2>Latest entries</h2>
+        <ul>
+          {allEntries.map((entry) => (
+            <li>
+              <a href={`/entries/${entry.data.game}/`}>{entry.data.title}</a>
+              <br />
+              <small>
+                {entry.data.game.toUpperCase()} · {entry.data.status} · {entry.data.date.toISOString().slice(0, 10)}
+              </small>
+              <p>{entry.data.summary}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
