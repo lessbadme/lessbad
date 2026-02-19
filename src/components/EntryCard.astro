@@ -1,0 +1,22 @@
+---
+import type { CollectionEntry } from "astro:content";
+import TagList from "./TagList.astro";
+
+interface Props {
+  entry: CollectionEntry<"entries">;
+}
+
+const { entry } = Astro.props;
+const slug = entry.slug;
+---
+
+<article class="card">
+  <h3>
+    <a href={`/log/${slug}/`}>{entry.data.title}</a>
+  </h3>
+  <p class="muted">
+    {entry.data.game.toUpperCase()} · {entry.data.date.toISOString().slice(0, 10)} · {entry.data.status}
+  </p>
+  <p>{entry.data.summary}</p>
+  <TagList tags={entry.data.tags} />
+</article>

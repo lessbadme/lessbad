@@ -1,0 +1,17 @@
+---
+import { getCollection } from "astro:content";
+import HubLayout from "../layouts/HubLayout.astro";
+import EntryList from "../components/EntryList.astro";
+
+const entries = (await getCollection("entries")).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+---
+
+<HubLayout
+  title="Timeline"
+  heading="Timeline"
+  intro="Chronological view across all games."
+>
+  <EntryList entries={entries} />
+</HubLayout>

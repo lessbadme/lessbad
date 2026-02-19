@@ -1,0 +1,26 @@
+---
+import { getCollection } from "astro:content";
+import HubLayout from "../../layouts/HubLayout.astro";
+import EntryList from "../../components/EntryList.astro";
+
+export async function getStaticPaths() {
+  const allEntries = await getCollection("entries");
+  const games = [...new Set(allEntries.map((entry) => entry.data.game))];
+
+  return games.map((game) => ({ params: { game } }));
+}
+
+const { game } = Astro.params;
+
+const entries = (await getCollection("entries", ({ data }) => data.game === game)).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+---
+
+<HubLayout
+  title={`${game?.toUpperCase()} hub`}
+  heading={`${game?.toUpperCase()} hub`}
+  intro="Game-specific notes, experiments, and confirmations."
+>
+  <EntryList entries={entries} emptyMessage="No entries for this game yet." />
+</HubLayout>
